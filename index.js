@@ -310,7 +310,7 @@ async function run() {
       res.send(result);
     });
 
-    app.get("/bookings", verifyToken, async (req, res) => {
+    app.get("/bookings", async (req, res) => {
       const cursor = bookingCollection.find();
       const result = await cursor.toArray();
       res.send(result);
@@ -321,9 +321,6 @@ async function run() {
       let query = {};
       if (email) {
         query.customerEmail = email;
-        if (email !== req.decoded_email) {
-          return res.status(403).send({ message: "Forbidden access" });
-        }
       }
       const cursor = bookingCollection.find(query);
       const result = await cursor.toArray();
